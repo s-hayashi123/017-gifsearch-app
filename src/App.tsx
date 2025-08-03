@@ -107,7 +107,7 @@ function App() {
               <div ref={ref} className="h-10 flex justify-center items-center">
                 {isFetchingNextPage && <p>さらに読み込み中...</p>}
                 {!isFetchingNextPage && !hasNextPage && (
-                  <p>もうGIFはありません</p>
+                  <p>もうGIFはありません。</p>
                 )}
               </div>
             </>
