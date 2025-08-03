@@ -26,7 +26,7 @@ function App() {
         params: {
           api_key: GIPHY_API_KEY,
           q: query,
-          limit: 25,
+          limit: 15,
           offset: pageParam,
         },
       }
