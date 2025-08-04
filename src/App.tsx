@@ -6,6 +6,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import type { Gif, GiphyApiResponse } from "./types/gif-types";
 import { useInView } from "react-intersection-observer";
+import { Skeleton } from "./components/ui/skeleton";
 
 const GIPHY_API_KEY = import.meta.env.VITE_GIPHY_API_KEY;
 
@@ -39,6 +40,7 @@ function App() {
     error,
     fetchNextPage,
     hasNextPage,
+    isFetching,
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
@@ -67,6 +69,7 @@ function App() {
     const newQuery = formData.get("search") as string;
     setSearchQuery(newQuery);
   };
+  const isInitialLoading = isFetching && !isFetchingNextPage;
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-4 sm:p-8">
@@ -82,14 +85,20 @@ function App() {
           <Button type="submit">検索</Button>
         </form>
         <div>
-          {status === "pending" ? (
-            <p>ローディング中...</p>
+          {isInitialLoading ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+              {Array.from({ length: 15 }).map((_, i) => (
+                <div key={i} className="overflow-hidden rounded-lg">
+                  <Skeleton className="w-full h-32" />
+                </div>
+              ))}
+            </div>
           ) : status === "error" ? (
             <p>エラー：{error.message}</p>
           ) : (
             <>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:gridcols-5 gap-4">
-                {data.pages.map((group, i) => (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                {data?.pages.map((group, i) => (
                   <React.Fragment key={i}>
                     {group.data.map((gif: Gif) => (
                       <div key={gif.id} className="overflow-hidden rounded-lg">
