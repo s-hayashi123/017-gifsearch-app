@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/gifs.js": {
+      "maxDuration": 10
+    }
+  }
+} 

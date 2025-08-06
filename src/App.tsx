@@ -8,8 +8,6 @@ import type { Gif, GiphyApiResponse } from "./types/gif-types";
 import { useInView } from "react-intersection-observer";
 import { Skeleton } from "./components/ui/skeleton";
 
-const GIPHY_API_KEY = import.meta.env.VITE_GIPHY_API_KEY;
-
 function App() {
   const [searchQuery, setSearchQuery] = useState("Hello");
 
@@ -21,17 +19,13 @@ function App() {
     queryKey: (string | number)[];
   }) => {
     const [, query] = queryKey;
-    const { data } = await axios.get<GiphyApiResponse>(
-      `https://api.giphy.com/v1/gifs/search`,
-      {
-        params: {
-          api_key: GIPHY_API_KEY,
-          q: query,
-          limit: 15,
-          offset: pageParam,
-        },
-      }
-    );
+    const { data } = await axios.get<GiphyApiResponse>(`/api/gifs`, {
+      params: {
+        q: query,
+        limit: 15,
+        offset: pageParam,
+      },
+    });
     return data;
   };
 
